@@ -1,0 +1,9 @@
+<div class="overlay" *ngIf="showOverlay">
+  <div class="container">
+      <span class="overlay-text" [innerHTML]="overlayText"> 
+      </span>
+      <div class="overlay-button-container">
+        <button class="overlay-button"(click)="fireButton()">{{buttonText}}</button>
+      </div>
+    </div>
+</div>

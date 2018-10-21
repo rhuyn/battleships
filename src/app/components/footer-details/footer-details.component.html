@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="title">
+    <span [innerHTML]="title"></span>
+  </div>
+  <div class="buttons" *ngIf="showButtons">
+    <div class="buttons-top">
+      <button (click)="shapePressed($event)" [disabled]="lBtnSwitch">L-Shape</button>
+      <button (click)="shapePressed($event)" [disabled]="bBtnSwitch">Box-Shape</button>
+    </div>
+    <div class="button-bottom">
+      <button (click)="shapePressed($event)" [disabled]="oneBtnSwitch">Line-Shape-1</button>
+      <button (click)="shapePressed($event)" [disabled]="twoBtnSwitch">Line-Shape-2</button>
+    </div>
+  </div>
+</div>

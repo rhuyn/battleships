@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    width: 80vmin;
+    height: 80vmin;
+    flex-wrap: wrap;
+    margin-top: 2vmin;
+    box-shadow: 1vmin 1vmin 0.5vmin grey;
+}
+
+app-space{
+    height: 10vmin;
+    width: 10vmin;
+}
