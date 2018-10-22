@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { SPACES } from '../resources/data';
+import { SPACES, GAMESTATUS } from '../resources/data';
 import { MemoryService } from './memory.service';
+import { GameStatusService } from './game-status.service';
 
 @Injectable()
 export class BattleshipPlacementService {
@@ -18,20 +19,32 @@ export class BattleshipPlacementService {
   //Notifies when position is selected
   private setSubject = new Subject<any>();
   public setObs: Observable<any>;
+  //Notifies reset of screen
+  private resetSubject = new Subject<any>();
+  public resetObs: Observable<any>;
   private selectedShape: string;
   private rotation: number;
   private hoverElement: string;
   private positionArray: string[];
 
-  constructor(private memoryService: MemoryService) {
+  constructor(private memoryService: MemoryService, private gameStatusService: GameStatusService) {
     this.hoverObs = this.hoverSubject.asObservable();
     this.unhoverObs = this.unhoverSubject.asObservable();
     this.shapeObs = this.shapeSubject.asObservable();
     this.setObs = this.setSubject.asObservable();
+    this.resetObs = this.resetSubject.asObservable();
     this.rotation = 0; //Used to calculate rotations of the shape
     this.selectedShape = "";
+    this.hoverElement = "";
+    this.positionArray = [];
   }
 
+  public resetBattleShipPlacements():void{
+    this.selectedShape = "";
+    this.rotation = 0;
+    this.hoverElement = "";
+    this.positionArray = [];
+  }
   //Sets selected shape
   public shapePressed(shape: string):void{
     this.selectedShape = shape;
@@ -66,7 +79,6 @@ export class BattleshipPlacementService {
     //Sends out all the positions to be highlighted
     if(this.selectedShape !== ""){
       this.positionArray = arr;
-      console.log(this.positionArray);
       arr.forEach((e)=>{
         this.hoverSubject.next(e);
       })
@@ -79,19 +91,43 @@ export class BattleshipPlacementService {
   }
 
   public setCurrentLocation():void{
-    if(this.positionArray.length > 0){
-      //if False, ask for reselect
-      if(this.memoryService.setPositions(this.positionArray, this.selectedShape)){
-        alert("Please select a spot where there isn't another ship!");
-      } else{
-        this.shapeSubject.next(this.selectedShape);
-        this.positionArray.forEach((x)=>{
-          this.setSubject.next(x);
-        });
-        //Resets
-        this.selectedShape = "";
-        this.positionArray = [];
+    if(this.selectedShape !== ""){
+      if(this.positionArray.length > 0){
+        //if False, ask for reselect
+        if(this.gameStatusService.getStatus() === GAMESTATUS.PLAYERONESETUP){
+          if(this.memoryService.setPositionsOne(this.positionArray, this.selectedShape)){
+            alert("Please select a spot where there isn't another ship!");
+          } else{
+            this.setBoard();
+          }
+        } else if(this.gameStatusService.getStatus() === GAMESTATUS.PLAYERTWOSETUP){
+          if(this.memoryService.setPositionsTwo(this.positionArray, this.selectedShape)){
+            alert("Please select a spot where there isn't another ship!");
+          } else{
+            this.setBoard();
+          }
+        }
       }
+    }
+  }
+
+
+  private setBoard():void{
+    this.shapeSubject.next(this.selectedShape);
+    this.positionArray.forEach((x)=>{
+      this.setSubject.next(x);
+    });
+    //Resets
+    this.selectedShape = "";
+    this.positionArray = [];
+
+    //Resets the board
+    if(this.memoryService.getSetShapesOne() && this.gameStatusService.getStatus() === GAMESTATUS.PLAYERONESETUP){
+      this.resetSubject.next(null);
+      this.gameStatusService.changeGameStatus(GAMESTATUS.PLAYERTWOSETUP);
+    }else if(this.memoryService.getSetShapesTwo() && this.gameStatusService.getStatus() === GAMESTATUS.PLAYERTWOSETUP){
+      this.gameStatusService.changeGameStatus(GAMESTATUS.PLAYERONETURN);
+      this.resetSubject.next(null);
     }
   }
 

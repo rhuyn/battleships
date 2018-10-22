@@ -9,18 +9,19 @@
     align-items: center;
 }
 .container{
-    width: 35vmin;
-    height: 30vmin;
+    width: 65vmin;
+    height: 55vmin;
     background: white;
     border-radius: 2vmin;
     display: flex;
     align-items:center;
-    flex-flow: column;
+    flex-direction: column;
+    justify-content: space-around;
 }
 .overlay-text{
     display: flex;
     justify-content: center;
-    flex-flow: column;
+    flex-direction: column;
     text-align: center;
     margin-top: 1vmin;
     margin-bottom: 2vmin;

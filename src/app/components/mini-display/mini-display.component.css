@@ -1,0 +1,19 @@
+.container{
+    width: 16vmin;
+    height: 16vmin;
+    background:red;
+    margin-top: 2vmin;
+}
+.container{
+    display: flex;
+    width: 16vmin;
+    height: 16vmin;
+    flex-wrap: wrap;
+    margin-top: 2vmin;
+    box-shadow: 1vmin 1vmin 0.5vmin grey;
+}
+
+mini-display-spaces{
+    height: 2vmin;
+    width: 2vmin;
+}

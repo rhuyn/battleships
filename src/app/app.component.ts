@@ -20,13 +20,31 @@ export class AppComponent {
       }
     }
   }
+  @HostListener('window:beforeunload', ['$event']) onbeforeunload(event){
+    if(this.gameStatusService.getStatus() === GAMESTATUS.PLAYERONETURN || this.gameStatusService.getStatus() === GAMESTATUS.PLAYERTWOTURN){
+      console.log("HERE");
+      this.memoryService.saveData();
+      localStorage.setItem("status", this.gameStatusService.getStatus().toString());
+    } else{
+      localStorage.clear();
+    }
+  }
   private subscription: Subscription;
 
   constructor(private gameStatusService: GameStatusService, private battleshipPlacementService: BattleshipPlacementService, private memoryService: MemoryService) {
     this.memoryService.resetPositions();
+
   }
 
   ngOnInit() {
-    this.gameStatusService.changeGameStatus(GAMESTATUS.STARTGAME);
+    let status:number = parseInt(localStorage.getItem("status"));
+    console.log(status);
+    if(status === GAMESTATUS.PLAYERONETURN || status === GAMESTATUS.PLAYERTWOTURN){
+      console.log("here");
+      this.memoryService.loadData();
+      this.gameStatusService.changeGameStatus(status);
+    } else{
+      this.gameStatusService.changeGameStatus(GAMESTATUS.STARTGAME);
+    }
   }
 }

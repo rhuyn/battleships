@@ -1,0 +1,17 @@
+.container{
+    width: 2vmin;
+    height: 2vmin;
+    border: solid 1px white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    transition: border-width 0.2s linear;
+}
+
+.container-text{
+    width: 1vmin;
+    font-size: 0.5vmin;
+    color: white;
+    text-shadow: 2px 2px  black;
+}

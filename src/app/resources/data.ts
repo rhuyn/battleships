@@ -18,3 +18,8 @@ export const enum GAMESTATUS {
     ENDGAME,
     RESUME
 }
+
+export interface colours{
+    colour: string;
+    loc: string;
+}

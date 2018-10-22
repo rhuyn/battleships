@@ -10,6 +10,9 @@ import { OverlayComponent } from './components/overlay/overlay.component';
 import { GameStatusService } from './services/game-status.service';
 import { BattleshipPlacementService } from './services/battleship-placement.service';
 import { MemoryService } from './services/memory.service';
+import { GamePlayService } from './services/game-play.service';
+import { MiniDisplayComponent } from './components/mini-display/mini-display.component';
+import { MiniDisplaySpacesComponent } from './components/mini-display-spaces/mini-display-spaces.component';
 
 @NgModule({
   declarations: [
@@ -18,11 +21,13 @@ import { MemoryService } from './services/memory.service';
     SpaceComponent,
     FooterDetailsComponent,
     OverlayComponent,
+    MiniDisplayComponent,
+    MiniDisplaySpacesComponent,
   ],
   imports: [
     BrowserModule
   ],
-  providers: [GameStatusService, BattleshipPlacementService, MemoryService],
+  providers: [GameStatusService, BattleshipPlacementService, MemoryService, GamePlayService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,7 +16,7 @@ span{
 .buttons{
     margin: 2.25%;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     justify-content: space-around;
 }
 

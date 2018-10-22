@@ -2,6 +2,12 @@
   <div class="container">
       <span class="overlay-text" [innerHTML]="overlayText"> 
       </span>
+      <div claas="details" *ngIf="showDetails">
+        <p>Player One # Shots Taken: {{playerOneShotText}}</p>
+        <p>Player One Sunk Ships: {{playerOneShipsDown}}</p>
+        <p>Player Two # Shots Taken: {{playerTwoShotText}}</p>
+        <p>Player Two Sunk Ships: {{playerTwoShipsDown}}</p>
+      </div>
       <div class="overlay-button-container">
         <button class="overlay-button"(click)="fireButton()">{{buttonText}}</button>
       </div>
